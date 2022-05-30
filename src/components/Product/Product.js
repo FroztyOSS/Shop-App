@@ -14,6 +14,19 @@ const Product = ({ name, title, colors, sizes, basePrice}) => {
     return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()];
   }
 
+  const getPrice = () => {
+    return(basePrice + sizes.find((element) => element === currentSize).additionalPrice);
+  }
+
+  const addToCart = event => {
+    event.preventDefault();
+
+    console.log('Name:', name);
+    console.log('Price:', getPrice());
+    console.log('Size:', currentSize);
+    console.log('Color:', currentColor);
+  }
+
   return (
     <article className={styles.product}>
       <div className={styles.imageContainer}>
@@ -25,9 +38,9 @@ const Product = ({ name, title, colors, sizes, basePrice}) => {
       <div>
         <header>
           <h2 className={styles.name}>{title}</h2>
-          <span className={styles.price}>{basePrice}$</span>
+          <span className={styles.price}>Price: {getPrice()}$</span>
         </header>
-        <form>
+        <form onSubmit={addToCart}>
           <div className={styles.sizes}>
             <h3 className={styles.optionLabel}>Sizes</h3>
             <ul className={styles.choices}>
@@ -36,7 +49,6 @@ const Product = ({ name, title, colors, sizes, basePrice}) => {
                   <button type="button" className={clsx(currentSize === size && styles.active)} onClick={() => setCurrentSize(size)}>{size.name}</button>
                 </li>
               )}
-              <li><button type="button" className={styles.active}>S</button></li>
             </ul>
           </div>
           <div className={styles.colors}>
